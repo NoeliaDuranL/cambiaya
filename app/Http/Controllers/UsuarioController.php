@@ -32,7 +32,7 @@ class UsuarioController extends Controller
 
         // Crear el usuario con la contraseña hasheada
         $usuario = Usuario::create([
-            'id_persona' => $request->id_persona,
+            'id_persona' => $request->id_persona ?? 2,
             'usuario' => $request->usuario,
             'correo' => $request->correo,
             'contrasena' => Hash::make($request->contrasena),

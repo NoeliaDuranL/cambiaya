@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\MensajeController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostProductoController;
 use App\Http\Controllers\ImageController;
 
@@ -21,6 +22,12 @@ Route::apiResource('post-producto', PostProductoController::class)->only(['store
 Route::post('/upload-image', [ImageController::class, 'store']);
 
 
+
+
+
+// Rutas para login y registro
+Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
 
 // Ruta de ejemplo proporcionada por Laravel
 Route::get('/user', function (Request $request) {
