@@ -13,8 +13,10 @@ use App\Http\Controllers\ImageController;
 
 // Rutas para los controladores usando apiResource
 Route::apiResource('persona', PersonaController::class);
+
 Route::apiResource('usuario', UsuarioController::class);
 Route::apiResource('producto', ProductoController::class);
+
 Route::apiResource('post', PostController::class);
 Route::apiResource('notificacion', NotificacionController::class);
 Route::apiResource('mensaje', MensajeController::class);
@@ -25,10 +27,14 @@ Route::post('/upload-image', [ImageController::class, 'store']);
 
 
 
+
+
+
 // Rutas para login y registro
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
-
+Route::post('products/uploadImage', [ProductoController::class, 'uploadImage']);
+Route::post('products', [ProductoController::class, 'createProduct']);
 // Ruta de ejemplo proporcionada por Laravel
 Route::get('/user', function (Request $request) {
     return $request->user();
