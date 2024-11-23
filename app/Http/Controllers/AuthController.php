@@ -41,6 +41,7 @@ class AuthController extends Controller
                 'correo' => $usuario->correo,
                 'nombre' => $usuario->persona->nombre,  // Acceder a los datos de Persona
                 'apellido' => $usuario->persona->apellido,  // Acceder a los datos de Persona
+                'id_usuario'=> $usuario->id_usuario,
             ]
         ], 200); // Código HTTP 200 para éxito
     }

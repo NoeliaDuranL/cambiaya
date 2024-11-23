@@ -4,74 +4,116 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
+    /**
+     * Listar todos los productos.
+     */
     public function index()
     {
         return response()->json(Producto::all());
     }
 
+    /**
+     * Mostrar un producto por ID.
+     */
     public function show($id)
     {
         $producto = Producto::findOrFail($id);
         return response()->json($producto);
     }
 
-
+    /**
+     * Subir una imagen para un producto.
+     */
     public function uploadImage(Request $request)
     {
-        // Validar que la imagen se haya enviado
+        // Validar que el archivo sea una imagen
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Subir la imagen y obtener el nombre del archivo
-        $imagePath = $request->file('image')->store('images'); // Guarda en la carpeta 'images'
-
-        // Aquí puedes guardar el $imagePath en la base de datos si es necesario
+        // Guardar la imagen en el directorio `public/images`
+        $imageName = time() . '_' . $request->file('imagen')->getClientOriginalName();
+        $imagePath = $request->file('imagen')->move(public_path('images'), $imageName);
 
         return response()->json([
             'success' => true,
-            'message' => 'Image uploaded successfully',
-            'imagePath' => $imagePath
+            'message' => 'Imagen subida con éxito',
+            'imagePath' => url('images/' . $imageName), // URL completa de la imagen
         ]);
     }
 
-
-    public function createProduct(Request $request)
+    /**
+     * Crear un nuevo producto.
+     */
+    public function store(Request $request)
     {
         // Validar los datos del producto
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'imagen' => 'required|string', // Suponemos que se pasa la ruta de la imagen como string
+            'descripcion' => 'required|string|max:500',
+            'imagen' => 'nullable|string', // Path opcional de la imagen
         ]);
 
-        // Crear el producto en la base de datos
-        $product = Producto::create([
+        // Crear el producto
+        $producto = Producto::create([
             'nombre' => $request->input('nombre'),
             'descripcion' => $request->input('descripcion'),
-            'imagen' => $request->input('imagen'), // Guardar la ruta de la imagen
+            'imagen' => $request->input('imagen'), // Path opcional de la imagen
         ]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Producto creado con éxito',
-            'producto' => $product
-        ]);
+            'producto' => $producto,
+        ], 201);
     }
+
+    /**
+     * Actualizar un producto existente.
+     */
     public function update(Request $request, $id)
     {
         $producto = Producto::findOrFail($id);
-        $producto->update($request->all());
-        return response()->json($producto);
+
+        // Validar los datos del producto
+        $request->validate([
+            'nombre' => 'nullable|string|max:255',
+            'descripcion' => 'nullable|string|max:500',
+            'imagen' => 'nullable|string', // Puede incluir un path o ser nulo
+        ]);
+
+        // Actualizar los datos del producto
+        $producto->update($request->only(['nombre', 'descripcion', 'imagen']));
+
+        return response()->json([
+            'success' => true,
+            'producto' => $producto,
+        ]);
     }
 
+    /**
+     * Eliminar un producto por ID.
+     */
     public function destroy($id)
     {
-        Producto::destroy($id);
-        return response()->json(['message' => 'Producto eliminado con éxito']);
+        $producto = Producto::findOrFail($id);
+
+        // Verificar y eliminar la imagen asociada
+        if ($producto->imagen) {
+            $imagePath = public_path('images/' . basename($producto->imagen));
+            if (file_exists($imagePath)) {
+                unlink($imagePath); // Eliminar la imagen físicamente
+            }
+        }
+
+        // Eliminar el producto
+        $producto->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Producto eliminado con éxito',
+        ]);
     }
 }

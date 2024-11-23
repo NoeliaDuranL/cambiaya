@@ -8,6 +8,8 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductPostUpController;
+
 use App\Http\Controllers\PostProductoController;
 use App\Http\Controllers\ImageController;
 
@@ -20,8 +22,17 @@ Route::apiResource('producto', ProductoController::class);
 Route::apiResource('post', PostController::class);
 Route::apiResource('notificacion', NotificacionController::class);
 Route::apiResource('mensaje', MensajeController::class);
-Route::apiResource('post-producto', PostProductoController::class)->only(['store', 'destroy']);;
-Route::post('/upload-image', [ImageController::class, 'store']);
+// Route::apiResource('post-producto', PostProductoController::class)->only(['store', 'destroy']);
+// Route::post('/upload-image', [ImageController::class, 'store']);
+
+// routes/api.php
+// Ruta para subir la imagen
+// Route::post('/upload-image', [ProductoImageController::class, 'uploadImage']);
+
+
+
+// Ruta para crear el producto y el post
+Route::post('/post-producto', [ProductPostUpController::class, 'createProductAndPost']);
 
 
 
@@ -33,10 +44,8 @@ Route::post('/upload-image', [ImageController::class, 'store']);
 // Rutas para login y registro
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
-Route::post('products/uploadImage', [ProductoController::class, 'uploadImage']);
-Route::post('products', [ProductoController::class, 'createProduct']);
+// Route::post('products/uploadImage', [ProductoController::class, 'uploadImage']);
+// Route::post('products', [ProductoController::class, 'createProduct']);
 // Ruta de ejemplo proporcionada por Laravel
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+
 

@@ -10,7 +10,7 @@ class Usuario extends Model
 {
     use HasFactory, HasApiTokens;
 
-    protected $table = 'Usuario';
+    protected $table = 'usuario';
     protected $primaryKey = 'id_usuario';
 
     protected $fillable = [
