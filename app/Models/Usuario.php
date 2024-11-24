@@ -18,6 +18,7 @@ class Usuario extends Model
         'usuario',
         'correo',
         'numero_celular',
+        'token', // Token de autenticación
         'contrasena', // Contraseña en formato hash
         'estado',
     ];

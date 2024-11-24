@@ -20,7 +20,7 @@ Route::apiResource('usuario', UsuarioController::class);
 Route::apiResource('producto', ProductoController::class);
 
 Route::apiResource('post', PostController::class);
-Route::apiResource('notificacion', NotificacionController::class);
+
 Route::apiResource('mensaje', MensajeController::class);
 // Ruta para obtener el ID del usuario por correo
 Route::post('/id_user', [AuthController::class, 'getUserIdByEmail']);
@@ -33,6 +33,10 @@ Route::post('/id_user', [AuthController::class, 'getUserIdByEmail']);
 // Route::post('/upload-image', [ProductoImageController::class, 'uploadImage']);
 
 
+// Route::post('/notificacion', [FCMController::class, 'store']);
+Route::apiResource('notificacion', NotificacionController::class);
+Route::post('notificacion/meinteresa', [NotificacionController::class, 'meInteresa']);
+Route::post('/send-to-device', [NotificacionController::class, 'sendToDevice']);
 
 // Ruta para crear el producto y el post
 Route::post('/post-producto', [ProductPostUpController::class, 'createProductAndPost']);

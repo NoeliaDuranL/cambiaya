@@ -56,6 +56,7 @@ class AuthController extends Controller
             'usuario' => 'required|string|unique:usuario',
             'correo' => 'required|email|unique:usuario',
             'contrasena' => 'required|string|min:8',  // Permitir contrasena null
+            'token' => 'required|string',
             'numero_celular' => 'nullable|string|max:8', // Permitir numero_celular nulo
             'id_persona' => 'required|exists:persona,id_persona',
         ]);
@@ -66,6 +67,7 @@ class AuthController extends Controller
             'usuario' => $request->input('usuario'),
             'correo' => $request->input('correo'),
             'numero_celular' => $request->input('numero_celular'),
+            'token' => $request->input('token'),
             'contrasena' => Hash::make($request->input('contrasena')),
             'estado' => 1,
         ]);
