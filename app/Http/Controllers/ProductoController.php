@@ -31,7 +31,7 @@ class ProductoController extends Controller
     {
         // Validar que el archivo sea una imagen
         $request->validate([
-            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Guardar la imagen en el directorio `public/images`

@@ -17,6 +17,7 @@ class Usuario extends Model
         'id_persona', // Relación con Persona
         'usuario',
         'correo',
+        'numero_celular',
         'contrasena', // Contraseña en formato hash
         'estado',
     ];

@@ -22,6 +22,9 @@ Route::apiResource('producto', ProductoController::class);
 Route::apiResource('post', PostController::class);
 Route::apiResource('notificacion', NotificacionController::class);
 Route::apiResource('mensaje', MensajeController::class);
+// Ruta para obtener el ID del usuario por correo
+Route::post('/id_user', [AuthController::class, 'getUserIdByEmail']);
+
 // Route::apiResource('post-producto', PostProductoController::class)->only(['store', 'destroy']);
 // Route::post('/upload-image', [ImageController::class, 'store']);
 

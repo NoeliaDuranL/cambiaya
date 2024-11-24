@@ -21,12 +21,15 @@ class UsuarioController extends Controller
 
     public function store(Request $request)
     {
+
+        \Log::info('Datos recibidos en la solicitud:', $request->all());
         // Validar los datos
         $request->validate([
             'id_persona' => 'required|exists:Persona,id_persona',
             'usuario' => 'required|unique:Usuario,usuario|max:50',
             'correo' => 'required|email|unique:Usuario,correo|max:100',
             'contrasena' => 'required|min:8',
+            'numero_celular' => 'required|string|max:8',
             'estado' => 'nullable|integer'
         ]);
 
@@ -35,6 +38,7 @@ class UsuarioController extends Controller
             'id_persona' => $request->id_persona ?? 2,
             'usuario' => $request->usuario,
             'correo' => $request->correo,
+            'numero_celular' => $request->numero_celular,
             'contrasena' => Hash::make($request->contrasena),
             'estado' => $request->estado ?? 1,
         ]);
@@ -49,8 +53,9 @@ class UsuarioController extends Controller
         // Validar los datos
         $request->validate([
             'id_persona' => 'exists:Persona,id_persona',
-            'usuario' => 'unique:Usuario,usuario,' . $id . ',id_usuario|max:50',
-            'correo' => 'email|unique:Usuario,correo,' . $id . ',id_usuario|max:100',
+            'usuario' => 'unique:usuario,usuario,' . $id . ',id_usuario|max:50',
+            'correo' => 'email|unique:usuario,correo,' . $id . ',id_usuario|max:100',
+            'numero_celular' => 'string|max:8',
             'contrasena' => 'nullable|min:8',
             'estado' => 'nullable|integer'
         ]);
