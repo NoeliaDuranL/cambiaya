@@ -1,4 +1,4 @@
-Configuracion para el BACKEND:
+*Configuracion para el BACKEND:*
 
 Habilitar la extensión sodium:
 Habilitar la extensión sodium en XAMPP
